@@ -400,4 +400,295 @@
         chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
     </script>
 </body>
+</html>        }
+
+        /* 2. قسم Recent Activity (Right Sidebar) */
+        .right-panel {
+            grid-column: 3 / 4;
+            grid-row: 1 / 3;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .bank-card {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            height: 200px;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .bank-card h2 { font-size: 28px; font-weight: bold; }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .activity-icon {
+            width: 40px; height: 40px;
+            background: var(--glass);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* 3. شات بوت SME Pulse AI (Floating) */
+        .ai-chat-box {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 400px;
+            height: 500px;
+            background-color: #0d1526;
+            border-radius: 24px;
+            border: 1px solid var(--accent-blue);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header .dot {
+            width: 10px; height: 10px; background: var(--accent-teal);
+            border-radius: 50%; box-shadow: 0 0 10px var(--accent-teal);
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .msg.ai { background: rgba(59, 180, 255, 0.1); align-self: flex-start; border-right: 3px solid var(--accent-teal); }
+        .msg.user { background: var(--glass); align-self: flex-end; }
+
+        .chat-input-area {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input-area input {
+            flex-grow: 1;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 15px;
+            color: white;
+            outline: none;
+        }
+
+        .send-btn {
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            color: black;
+            cursor: pointer;
+        }
+
+        /* الاستثمارات (Investment Cards) */
+        .investment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .inv-card {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        /* فئات المصاريف (Bottom Left) */
+        .expense-categories {
+            margin-top: 20px;
+        }
+
+        .cat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div style="color: var(--accent-teal); font-size: 24px; font-weight: bold;">◈</div>
+        <i class="fa-solid fa-house active"></i>
+        <i class="fa-solid fa-chart-pie"></i>
+        <i class="fa-solid fa-wallet"></i>
+        <i class="fa-solid fa-gear"></i>
+    </div>
+
+    <div class="main-container">
+        
+        <div class="card income-expenses">
+            <h3 style="font-size: 18px;">Income & Expenses</h3>
+            <div class="chart-circle-wrap">
+                <div class="blob-chart">
+                    <div style="text-align: center;">
+                        <div style="font-size: 24px; font-weight: bold;">$13,562</div>
+                        <div style="font-size: 12px; opacity: 0.7;">+12% vs last month</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="expense-categories">
+                <div class="cat-item">
+                    <span><i class="fa-solid fa-plane" style="margin-left: 10px;"></i> Spain</span>
+                    <span>$1,240</span>
+                </div>
+                <div class="cat-item">
+                    <span><i class="fa-solid fa-car" style="margin-left: 10px;"></i> Car Repair</span>
+                    <span>$820</span>
+                </div>
+                <div class="cat-item">
+                    <span><i class="fa-solid fa-graduation-cap" style="margin-left: 10px;"></i> Education</span>
+                    <span>$2,100</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 25px;">
+            <div class="card">
+                <h3>Investment</h3>
+                <div class="investment-grid" style="margin-top: 20px;">
+                    <div class="inv-card">
+                        <div style="font-size: 12px; color: var(--text-muted);">ETH/USD</div>
+                        <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">$4,120.50</div>
+                        <div style="color: var(--accent-teal); font-size: 12px;">+4.5%</div>
+                    </div>
+                    <div class="inv-card">
+                        <div style="font-size: 12px; color: var(--text-muted);">BTC/USD</div>
+                        <div style="font-size: 20px; font-weight: bold; margin: 5px 0;">$64,100.00</div>
+                        <div style="color: var(--accent-teal); font-size: 12px;">+2.1%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Send money to</h3>
+                <div style="display: flex; gap: 15px; margin: 20px 0;">
+                    <img src="https://i.pravatar.cc/40?img=1" style="border-radius: 50%;">
+                    <img src="https://i.pravatar.cc/40?img=2" style="border-radius: 50%;">
+                    <img src="https://i.pravatar.cc/40?img=3" style="border-radius: 50%;">
+                    <div style="width: 40px; height: 40px; border-radius: 50%; border: 1px dashed var(--text-muted); display: flex; align-items: center; justify-content: center;">+</div>
+                </div>
+                <div style="background: var(--glass); padding: 15px; border-radius: 15px; text-align: center; font-size: 24px; font-weight: bold;">
+                    $266
+                </div>
+                <button style="width: 100%; padding: 12px; border-radius: 12px; border: none; background: var(--accent-blue); margin-top: 15px; font-weight: bold;">Send money</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="bank-card">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="font-size: 12px; opacity: 0.8;">My cards</span>
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <h2>$8,244.00</h2>
+                <div style="font-size: 14px; letter-spacing: 2px;">**** **** 2233</div>
+            </div>
+
+            <div class="card" style="flex-grow: 1;">
+                <h3>Recent Activities</h3>
+                <div style="margin-top: 20px;">
+                    <div class="activity-item">
+                        <div class="activity-icon"><i class="fa-brands fa-spotify"></i></div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-size: 14px;">Spotify</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Music Platform</div>
+                        </div>
+                        <div style="color: #ff6b8a;">-$14.00</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"><i class="fa-brands fa-apple"></i></div>
+                        <div style="flex-grow: 1;">
+                            <div style="font-size: 14px;">Apple Music</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Subscription</div>
+                        </div>
+                        <div style="color: #ff6b8a;">-$20.00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ai-chat-box">
+            <div class="chat-header">
+                <div class="dot"></div>
+                <span style="font-weight: bold; font-size: 14px;">SME Pulse AI Advisor</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg ai">أهلاً بك! أنا مستشارك المالي الذكي. كيف أساعدك في تحليل سيولتك اليوم؟</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="اسأل عن الـ Runway أو Burn Rate...">
+                <button class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('msg', sender);
+            msgDiv.innerText = text;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function handleChat() {
+            const text = chatInput.value.trim();
+            if(!text) return;
+            
+            addMessage(text, 'user');
+            chatInput.value = '';
+
+            setTimeout(() => {
+                let response = "I am analyzing your data... Currently, your Cash Runway is **14.2 months** and your burn rate is stable.";
+                if(text.includes('عربي')) response = "بالتأكيد، يمكنني التحدث بالعربية. وضعك المالي ممتاز، والسيولة النقدية تكفي لـ 14 شهراً قادمة.";
+                addMessage(response, 'ai');
+            }, 1000);
+        }
+
+        sendBtn.addEventListener('click', handleChat);
+        chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
+    </script>
+</body>
 </html>
