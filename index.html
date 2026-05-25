@@ -35,12 +35,13 @@
             height: 100vh;
             display: flex;
             overflow: hidden;
-            direction: ltr; /* ضبط الاتجاه العام متوافق مع الصورة الاصلية */
+            direction: ltr; 
         }
 
-        /* القائمة الجانبية (Sidebar) مصلحة بالكامل */
+        /* القائمة الجانبية */
         .sidebar {
             width: 80px;
+            min-width: 80px;
             background-color: var(--bg-card);
             border-right: 1px solid var(--border);
             display: flex;
@@ -48,6 +49,7 @@
             align-items: center;
             padding: 30px 0;
             gap: 40px;
+            z-index: 10;
         }
 
         .sidebar i {
@@ -61,15 +63,23 @@
             color: var(--accent-blue);
         }
 
-        /* الحاوية الرئيسية مصلحة الأبعاد */
+        /* الحاوية الرئيسية (تم تحويلها لـ Flexbox لتصبح متجاوبة مع كل الشاشات) */
         .main-container {
             flex-grow: 1;
             padding: 25px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 340px;
+            display: flex;
+            flex-wrap: wrap; /* يسمح بنزول العناصر إذا الشاشة صغيرة */
             gap: 25px;
             overflow-y: auto;
-            position: relative;
+            align-content: flex-start;
+        }
+
+        /* أعمدة لوحة التحكم */
+        .dashboard-col {
+            flex: 1 1 300px; /* كل عمود يأخذ مساحة مرنة، وأقل عرض له 300 بكسل */
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
         /* البطاقات */
@@ -108,7 +118,7 @@
             66% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 40%; }
         }
 
-        /* الفئات المصاريف منسقة بشكل صحيح */
+        /* الفئات المصاريف */
         .cat-item {
             display: flex;
             justify-content: space-between;
@@ -123,27 +133,19 @@
             gap: 10px;
         }
 
-        /* البانل الأيمن */
-        .right-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        /* بطاقة البنك مصلحة الاتجاه */
+        /* بطاقة البنك */
         .bank-card {
             background: linear-gradient(135deg, #1e293b, #0f172a);
-            height: 180px;
+            height: 200px;
             border-radius: 20px;
             padding: 25px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid rgba(255,255,255,0.1);
-            direction: ltr;
         }
 
-        .bank-card h2 { font-size: 26px; font-weight: bold; color: white; }
+        .bank-card h2 { font-size: 26px; font-weight: bold; color: white; margin: 10px 0;}
 
         /* الأنشطة الأخيرة */
         .activity-item {
@@ -176,12 +178,22 @@
             border: 1px solid var(--border);
         }
 
-        /* الشات بوت المدمج بالركن ومصمم بدقة للغتين */
+        /* إرسال المال السريع */
+        .avatar-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .avatar-group img {
+            width: 36px; height: 36px; border-radius: 50%;
+        }
+
+        /* الشات بوت الذكي (مزود بميزة التصغير) */
         .ai-chat-box {
             position: fixed;
             bottom: 25px;
-            right: 25px; /* تثبيته بالجهة اليمين لعدم تغطية القائمة */
-            width: 380px;
+            right: 25px;
+            width: 360px;
             height: 480px;
             background-color: #0c1424;
             border-radius: 24px;
@@ -191,6 +203,19 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             z-index: 100;
             overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* كلاس التصغير */
+        .ai-chat-box.minimized {
+            height: 60px; /* يعرض الهيدر فقط */
+            width: 250px;
+            cursor: pointer;
+        }
+        
+        .ai-chat-box.minimized:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-teal);
         }
 
         .chat-header {
@@ -199,12 +224,29 @@
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
         .chat-header .dot {
             width: 8px; height: 8px; background: var(--accent-teal);
             border-radius: 50%; box-shadow: 0 0 10px var(--accent-teal);
+        }
+
+        .toggle-btn {
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .chat-header:hover .toggle-btn {
+            color: var(--accent-blue);
         }
 
         .chat-messages {
@@ -216,7 +258,7 @@
             gap: 12px;
         }
 
-        /* ستايل متناسق للرسائل يدعم اتجاه النص التلقائي */
+        /* رسائل الشات */
         .msg {
             max-width: 80%;
             padding: 12px 16px;
@@ -244,6 +286,7 @@
             display: flex;
             gap: 10px;
             background: rgba(0,0,0,0.1);
+            border-top: 1px solid var(--border);
         }
 
         .chat-input-area input {
@@ -269,16 +312,12 @@
             justify-content: center;
             font-size: 16px;
         }
-        
-        /* إرسال المال السريع */
-        .avatar-group {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        .avatar-group img {
-            width: 36px; height: 36px; border-radius: 50%;
-        }
+
+        /* تخصيص السكرول بار ليصبح احترافي */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
 
     </style>
 </head>
@@ -294,34 +333,36 @@
 
     <div class="main-container">
         
-        <div class="card">
-            <h3>Income & Expenses</h3>
-            <div class="chart-circle-wrap">
-                <div class="blob-chart">
-                    <div style="text-align: center; color: #040812;">
-                        <div style="font-size: 22px; font-weight: bold;">$13,562</div>
-                        <div style="font-size: 11px; font-weight: 500; opacity: 0.8;">+12% vs last month</div>
+        <div class="dashboard-col">
+            <div class="card">
+                <h3>Income & Expenses</h3>
+                <div class="chart-circle-wrap">
+                    <div class="blob-chart">
+                        <div style="text-align: center; color: #040812;">
+                            <div style="font-size: 22px; font-weight: bold;">$13,562</div>
+                            <div style="font-size: 11px; font-weight: 500; opacity: 0.8;">+12% vs last month</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="expense-categories">
-                <div class="cat-item">
-                    <span><i class="fa-solid fa-plane" style="color: var(--accent-blue);"></i> Spain Trip</span>
-                    <span>$1,240</span>
-                </div>
-                <div class="cat-item">
-                    <span><i class="fa-solid fa-car" style="color: var(--accent-teal);"></i> Car Repair</span>
-                    <span>$820</span>
-                </div>
-                <div class="cat-item">
-                    <span><i class="fa-solid fa-graduation-cap" style="color: #a855f7;"></i> Education</span>
-                    <span>$2,100</span>
+                
+                <div class="expense-categories">
+                    <div class="cat-item">
+                        <span><i class="fa-solid fa-plane" style="color: var(--accent-blue);"></i> Spain Trip</span>
+                        <span>$1,240</span>
+                    </div>
+                    <div class="cat-item">
+                        <span><i class="fa-solid fa-car" style="color: var(--accent-teal);"></i> Car Repair</span>
+                        <span>$820</span>
+                    </div>
+                    <div class="cat-item">
+                        <span><i class="fa-solid fa-graduation-cap" style="color: #a855f7;"></i> Education</span>
+                        <span>$2,100</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 25px;">
+        <div class="dashboard-col">
             <div class="card">
                 <h3>Investment</h3>
                 <div class="investment-grid">
@@ -353,7 +394,7 @@
             </div>
         </div>
 
-        <div class="right-panel">
+        <div class="dashboard-col" style="padding-bottom: 80px;">
             <div class="bank-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 12px; opacity: 0.8;">My Card</span>
@@ -386,34 +427,56 @@
             </div>
         </div>
 
-        <div class="ai-chat-box">
-            <div class="chat-header">
+    </div> <div class="ai-chat-box" id="chatBox">
+        <div class="chat-header" id="chatHeader">
+            <div class="header-title">
                 <div class="dot"></div>
-                <span style="font-weight: 600; font-size: 14px; font-family: 'Cairo', sans-serif;">SME Pulse AI Advisor</span>
+                <span style="font-weight: 600; font-size: 14px; font-family: 'Cairo', sans-serif;">SME Pulse AI</span>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="msg ai">أهلاً بك! أنا مستشارك المالي الذكي لتتبع السيولة والاستدامة. يمكنك سؤالي باللغة العربية أو الإنجليزية.
-                <br><br>
-                Welcome! I am your AI financial advisor. You can ask me about your Burn Rate or Runway in English or Arabic!</div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="chatInput" placeholder="اسأل عن السيولة أو اكتب هنا... / Ask anything...">
-                <button class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+            <div class="toggle-btn" id="toggleIcon">
+                <i class="fa-solid fa-chevron-down"></i>
             </div>
         </div>
-
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg ai">أهلاً بك! أنا مستشارك المالي الذكي لتتبع السيولة والاستدامة. يمكنك سؤالي باللغة العربية أو الإنجليزية.</div>
+        </div>
+        
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="اسأل عن السيولة / Ask anything...">
+            <button class="send-btn" id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
     </div>
 
     <script>
+        // برمجة الشات بوت وتحديد اللغات
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const sendBtn = document.getElementById('sendBtn');
+        const chatBox = document.getElementById('chatBox');
+        const chatHeader = document.getElementById('chatHeader');
+        const toggleIcon = document.getElementById('toggleIcon').querySelector('i');
+
+        // دالة فتح/تصغير الشات بوت
+        chatHeader.addEventListener('click', () => {
+            chatBox.classList.toggle('minimized');
+            if(chatBox.classList.contains('minimized')) {
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
+            } else {
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+            }
+        });
+
+        // منع إغلاق الشات عند الضغط على منطقة الكتابة أو الرسائل
+        document.querySelector('.chat-messages').addEventListener('click', e => e.stopPropagation());
+        document.querySelector('.chat-input-area').addEventListener('click', e => e.stopPropagation());
 
         function addMessage(text, sender) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('msg', sender);
             
-            // تحديد اتجاه النص تلقائياً بناءً على الحروف المكتوبة (عربي أو إنجليزي)
             if(/[\u0600-\u06FF]/.test(text)) {
                 msgDiv.style.direction = 'rtl';
                 msgDiv.style.fontFamily = "'Cairo', sans-serif";
@@ -424,7 +487,11 @@
             
             msgDiv.innerHTML = text;
             chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // التأكد من نزول السكرول لآخر رسالة
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 50);
         }
 
         function handleChat() {
@@ -437,7 +504,6 @@
             setTimeout(() => {
                 let response = "I am processing your query. Currently, your calculated **Cash Runway is 14.2 months** with a highly stable burn rate.";
                 
-                // فحص الكلمات المفتاحية بالعربية والانجليزية
                 const inputLower = text.toLowerCase();
                 if(/[\u0600-\u06FF]/.test(text)) {
                     if(inputLower.includes('سيولة') || inputLower.includes('استدامة') || inputLower.includes('runway')) {
@@ -456,11 +522,20 @@
                 }
                 
                 addMessage(response, 'ai');
-            }, 1000);
+            }, 800);
         }
 
-        sendBtn.addEventListener('click', handleChat);
-        chatInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleChat(); });
+        sendBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleChat();
+        });
+        
+        chatInput.addEventListener('keypress', (e) => { 
+            if(e.key === 'Enter') {
+                e.stopPropagation();
+                handleChat();
+            }
+        });
     </script>
 </body>
 </html>
